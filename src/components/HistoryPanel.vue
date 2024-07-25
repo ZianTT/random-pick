@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import TitleBar from "@/components/TitleBar.vue";
+import { HistoryItem } from "@/types";
 
 const props = defineProps<{
 	show: boolean;
-	historyItems: string[];
+	historyItems: HistoryItem[];
 	closePanel: () => void;
-	setHistoryItems: (newValue: string[]) => void;
+	setHistoryItems: (newValue: HistoryItem[]) => void;
 }>();
 
 function deleteHistoryItem(index: number): void {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { SettingsInfo } from "@/types";
+import { HistoryItem, SettingsInfo } from "@/types";
 import { ref } from "vue";
 
 const props = defineProps<{
-	historyItems: historyItem[];
+	historyItems: HistoryItem[];
 	names: string[];
 	settings: SettingsInfo;
 	addHistoryItem: (item: string, correct: boolean) => void;
@@ -68,7 +68,7 @@ function getRandomValue(): string {
 			stopScrolling();
 			return "幸运儿";
 		}
-		if (props.historyItems.includes(result)) {
+		if (props.historyItems.some((item) => item.value === result)) {
 			return getRandomValue();
 		}
 	}

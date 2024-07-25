@@ -4,7 +4,7 @@ import HistoryPanel from "@/components/HistoryPanel.vue";
 import IconBar from "@/components/IconBar.vue";
 import NumberArea from "@/components/NumberArea.vue";
 import SettingsPanel from "@/components/SettingsPanel.vue";
-import { SettingsInfo, HistoryItem } from "@/types";
+import { HistoryItem, SettingsInfo } from "@/types";
 import { ref, Ref } from "vue";
 
 const DESKTOP_WIDTH = 1160;
@@ -26,8 +26,8 @@ const settings = ref<SettingsInfo>(((): SettingsInfo => {
 		oddOnly: false,
 		boyOnly: false,
 		girlOnly: false,
-		boyNumber: "26",
-		girlNumber: "16",
+		boyNumber: 26,
+		girlNumber: 16,
 		quantity: "1",
 		repeat: true,
 		speed: "100",
@@ -55,7 +55,7 @@ const settings = ref<SettingsInfo>(((): SettingsInfo => {
 	}
 })());
 
-const historyItems = ref<HistoryItem[]>([]);
+const historyItems = ref<{ value: string; correct: boolean; }[]>([]);
 const showHistoryPanel = ref<boolean>(false);
 const showSettingsPanel = ref<boolean>(window.innerWidth > DESKTOP_WIDTH);
 
@@ -67,7 +67,7 @@ function addHistoryItem(newItem: string, correct: boolean): void {
 			value: newItem,
 			correct: correct
 		}
-	)
+	);
 	if (
 		!showHistoryPanelOnce &&
 		window.innerWidth > DESKTOP_WIDTH &&
@@ -157,7 +157,7 @@ function toggleSettingsPanel(): void {
 	<div class="app">
 		<HistoryPanel v-bind:show="showHistoryPanel" v-bind:history-items="historyItems" v-bind:close-panel="() => {
 			showHistoryPanel = false;
-		}" v-bind:set-history-items="(newValue: string[]) => {
+		}" v-bind:set-history-items="(newValue: HistoryItem[]) => {
 			historyItems = newValue;
 		}" />
 		<main>

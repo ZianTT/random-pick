@@ -3,7 +3,7 @@ defineProps<{
 	id: string;
 	isCheckBox: boolean;
 	labelValue: string;
-	value: string | boolean;
+	value: string | number | boolean;
 	setValue: (event: Event) => void;
 }>();
 </script>

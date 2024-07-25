@@ -13,6 +13,10 @@ export interface SettingsInfo {
 	repeat: boolean;
 	oddOnly: boolean;
 	evenOnly: boolean;
+	boyOnly: boolean;
+	girlOnly: boolean;
+	boyNumber: number;
+	girlNumber: number;
 }
 
 export interface HistoryItem {
