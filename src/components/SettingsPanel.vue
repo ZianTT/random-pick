@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import InputBar from "@/components/InputBar.vue";
-import NameList from "@/components/NameList.vue";
 import TitleBar from "@/components/TitleBar.vue";
 import { SettingsInfo } from "@/types";
 
@@ -15,12 +14,11 @@ defineProps<{
 
 const settingsItems: (keyof SettingsInfo)[] = [
 	"quantity",
-	"minimum",
-	"maximum",
-	"speed",
 	"repeat",
-	"oddOnly",
-	"evenOnly",
+	"boyOnly",
+	"girlOnly",
+	"boyNumber",
+	"girlNumber"
 ];
 </script>
 
@@ -35,6 +33,6 @@ const settingsItems: (keyof SettingsInfo)[] = [
 			<h1>{{ $t("settings") }}</h1>
 		</TitleBar>
 		<InputBar v-for="item in settingsItems" v-bind:key="item" v-bind:id="item" v-bind:is-check-box="typeof settings[item] === 'boolean'" v-bind:label-value="$t(item)" v-bind:value="settings[item]" v-bind:set-value="setInputValue(item)" />
-		<NameList v-bind:names="names" v-bind:set-names="setNames" />
+		<!--<NameList v-bind:names="names" v-bind:set-names="setNames" />-->
 	</div>
 </template>

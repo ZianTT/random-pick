@@ -37,7 +37,7 @@ function deleteHistoryItem(index: number): void {
 		</TitleBar>
 		<ul>
 			<li v-for="item, index in historyItems" v-bind:key="index">
-				<div class="list-item-main">{{ item }}</div>
+				<div class="list-item-main">{{ item.value }} | {{ item.correct ? $t("correct") : $t("incorrect") }}</div>
 				<button v-on:click="() => deleteHistoryItem(index)">
 					{{ $t("delete") }}
 				</button>

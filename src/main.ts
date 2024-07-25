@@ -54,7 +54,7 @@ await i18next.init({
 });
 
 document.documentElement.lang = lang;
-document.title = t("randomNumberByShangzhen");
+document.title = t("randomPickByZianTT");
 
 library.add(
 	faClockRotateLeft,

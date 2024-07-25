@@ -4,7 +4,7 @@ import HistoryPanel from "@/components/HistoryPanel.vue";
 import IconBar from "@/components/IconBar.vue";
 import NumberArea from "@/components/NumberArea.vue";
 import SettingsPanel from "@/components/SettingsPanel.vue";
-import { SettingsInfo } from "@/types";
+import { SettingsInfo, HistoryItem } from "@/types";
 import { ref, Ref } from "vue";
 
 const DESKTOP_WIDTH = 1160;
@@ -12,18 +12,22 @@ const DESKTOP_WIDTH = 1160;
 const names = ref<string[]>(((): string[] => {
 	try {
 		const storedNames = localStorage.getItem("names");
-		return storedNames ? JSON.parse(storedNames) as string[] : [];
+		return storedNames ? JSON.parse(storedNames) as string[] : ["巢梦媛", "崔灵琪", "崔欣玥", "范子衿", "高渊", "何思敏", "潘紫宸", "钱奕阳", "王睿漪", "王钰麟", "吴佳丽", "吴嘉希", "严雪菲", "虞雅睿", "朱思瑶", "朱怡雯", "陈思默", "陈奕云", "程卓立", "代子安", "邓然", "丁炫铭", "董蓼萧", "范思哲", "范裕盛", "葛隽涵", "李舟翔", "陆梓越", "马若桐", "马致远", "沐佳赟", "田海芮", "王毅超", "吴雨辰", "武易", "严士杰", "杨熙", "杨潇", "杨宜霖", "张孟哲", "赵佳齐", "周浩宸",];
 	} catch {
-		return [];
+		return ["巢梦媛", "崔灵琪", "崔欣玥", "范子衿", "高渊", "何思敏", "潘紫宸", "钱奕阳", "王睿漪", "王钰麟", "吴佳丽", "吴嘉希", "严雪菲", "虞雅睿", "朱思瑶", "朱怡雯", "陈思默", "陈奕云", "程卓立", "代子安", "邓然", "丁炫铭", "董蓼萧", "范思哲", "范裕盛", "葛隽涵", "李舟翔", "陆梓越", "马若桐", "马致远", "沐佳赟", "田海芮", "王毅超", "吴雨辰", "武易", "严士杰", "杨熙", "杨潇", "杨宜霖", "张孟哲", "赵佳齐", "周浩宸",];
 	}
 })());
 
 const settings = ref<SettingsInfo>(((): SettingsInfo => {
 	const defaultValue = {
 		evenOnly: false,
-		maximum: "60",
+		maximum: "42",
 		minimum: "1",
 		oddOnly: false,
+		boyOnly: false,
+		girlOnly: false,
+		boyNumber: "26",
+		girlNumber: "16",
 		quantity: "1",
 		repeat: true,
 		speed: "100",
@@ -51,14 +55,19 @@ const settings = ref<SettingsInfo>(((): SettingsInfo => {
 	}
 })());
 
-const historyItems = ref<string[]>([]);
+const historyItems = ref<HistoryItem[]>([]);
 const showHistoryPanel = ref<boolean>(false);
 const showSettingsPanel = ref<boolean>(window.innerWidth > DESKTOP_WIDTH);
 
 let showHistoryPanelOnce = false;
 
-function addHistoryItem(newItem: string): void {
-	historyItems.value.push(newItem);
+function addHistoryItem(newItem: string, correct: boolean): void {
+	historyItems.value.push(
+		{
+			value: newItem,
+			correct: correct
+		}
+	)
 	if (
 		!showHistoryPanelOnce &&
 		window.innerWidth > DESKTOP_WIDTH &&
@@ -81,6 +90,8 @@ function setInputValue(key: string): ((event: Event) => void) {
 			const conflicts = {
 				evenOnly: "oddOnly",
 				oddOnly: "evenOnly",
+				boyOnly: "girlOnly",
+				girlOnly: "boyOnly",
 			};
 			const conflict = conflicts[key as keyof typeof conflicts];
 			if (conflict) {
@@ -147,8 +158,8 @@ function toggleSettingsPanel(): void {
 		<HistoryPanel v-bind:show="showHistoryPanel" v-bind:history-items="historyItems" v-bind:close-panel="() => {
 			showHistoryPanel = false;
 		}" v-bind:set-history-items="(newValue: string[]) => {
-	historyItems = newValue;
-}" />
+			historyItems = newValue;
+		}" />
 		<main>
 			<div class="number-areas">
 				<NumberArea v-for="index in (parseInt(settings.quantity) || 0)" v-bind:key="index" v-bind:history-items="historyItems" v-bind:names="names" v-bind:settings="settings" v-bind:addHistoryItem="addHistoryItem" v-bind:set-settings="setSettings" />
@@ -170,12 +181,6 @@ function toggleSettingsPanel(): void {
 				show: !showHistoryPanel,
 				title: $t('history'),
 				onClick: toggleHistoryPanel
-			},
-			{
-				icon: ['fab', 'github'],
-				show: true,
-				title: 'GitHub',
-				onClick: openGitHub
 			},
 		]" size="xl" />
 	</div>

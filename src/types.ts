@@ -14,3 +14,8 @@ export interface SettingsInfo {
 	oddOnly: boolean;
 	evenOnly: boolean;
 }
+
+export interface HistoryItem {
+	value: string;
+	correct: boolean;
+}

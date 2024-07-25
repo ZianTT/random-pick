@@ -3,15 +3,15 @@ import { SettingsInfo } from "@/types";
 import { ref } from "vue";
 
 const props = defineProps<{
-	historyItems: string[];
+	historyItems: historyItem[];
 	names: string[];
 	settings: SettingsInfo;
-	addHistoryItem: (item: string) => void;
+	addHistoryItem: (item: string, correct: boolean) => void;
 	setSettings: (newValue: SettingsInfo) => void;
 }>();
 
 const isScrolling = ref<boolean>(false);
-const number = ref<string>("0"); // string for names
+const number = ref<string>("幸运儿"); // string for names
 
 let timeoutId: number | undefined = undefined;
 
@@ -35,6 +35,12 @@ function getRandomValue(): string {
 	) {
 		return getRandomValue();
 	}
+	if (
+		(props.settings.girlOnly && randomInt > props.settings.girlNumber && randomInt < props.settings.boyNumber + props.settings.girlNumber) ||
+		(props.settings.boyOnly && randomInt <= props.settings.girlNumber)
+	) {
+		return getRandomValue();
+	}
 	if (props.names.length > 0) {
 		const nameValue = props.names[randomInt - 1];
 		if (nameValue) {
@@ -48,13 +54,19 @@ function getRandomValue(): string {
 		} else if (props.settings.evenOnly) {
 			total = Math.ceil(total / 2);
 		}
+		if (props.settings.boyOnly) {
+			total = props.settings.boyNumber;
+		} else if (props.settings.girlOnly) {
+			total = props.settings.girlNumber;
+		}
+
 		if (total - props.historyItems.length <= 1) {
 			const newSettings = { ...props.settings };
 			newSettings.repeat = true;
 			props.setSettings(newSettings);
 			isScrolling.value = false;
 			stopScrolling();
-			return "0";
+			return "幸运儿";
 		}
 		if (props.historyItems.includes(result)) {
 			return getRandomValue();
@@ -89,11 +101,18 @@ function toggleScrolling(): void {
 		stopScrolling();
 		const randomValue = getRandomValue();
 		number.value = randomValue;
-		props.addHistoryItem(randomValue);
 	} else {
 		startScrolling();
 	}
 	isScrolling.value = !isScrolling.value;
+}
+
+function answerCorrect(): void {
+	props.addHistoryItem(number.value, true);
+}
+
+function answerIncorrect(): void {
+	props.addHistoryItem(number.value, false);
 }
 </script>
 
@@ -105,6 +124,12 @@ function toggleScrolling(): void {
 		}">{{ number }}</div>
 		<button class="main-btn" v-on:click="toggleScrolling">
 			{{ isScrolling ? $t("stop") : $t("start") }}
+		</button>
+		<button class="main-btn" v-on:click="answerCorrect">
+			{{ $t("answerCorrect") }}
+		</button>
+		<button class="main-btn" v-on:click="answerIncorrect">
+			{{ $t("answerIncorrect") }}
 		</button>
 	</div>
 </template>
