@@ -37,7 +37,8 @@ function getRandomValue(): string {
 	}
 	if (
 		(props.settings.girlOnly && randomInt > props.settings.girlNumber && randomInt <= props.settings.boyNumber + props.settings.girlNumber) ||
-		(props.settings.boyOnly && randomInt <= props.settings.girlNumber)
+		(props.settings.boyOnly && randomInt <= props.settings.girlNumber) ||
+		(!props.settings.special && randomInt > props.settings.boyNumber + props.settings.girlNumber)
 	) {
 		return getRandomValue();
 	}
