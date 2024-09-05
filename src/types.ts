@@ -17,6 +17,7 @@ export interface SettingsInfo {
 	girlOnly: boolean;
 	boyNumber: number;
 	girlNumber: number;
+	special: boolean;
 }
 
 export interface HistoryItem {
