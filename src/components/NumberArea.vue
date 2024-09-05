@@ -36,7 +36,7 @@ function getRandomValue(): string {
 		return getRandomValue();
 	}
 	if (
-		(props.settings.girlOnly && randomInt > props.settings.girlNumber && randomInt < props.settings.boyNumber + props.settings.girlNumber) ||
+		(props.settings.girlOnly && randomInt > props.settings.girlNumber && randomInt <= props.settings.boyNumber + props.settings.girlNumber) ||
 		(props.settings.boyOnly && randomInt <= props.settings.girlNumber)
 	) {
 		return getRandomValue();
@@ -49,11 +49,6 @@ function getRandomValue(): string {
 	}
 	if (!props.settings.repeat) {
 		let total = max - min + 1;
-		if (props.settings.oddOnly) {
-			total = Math.floor(total / 2);
-		} else if (props.settings.evenOnly) {
-			total = Math.ceil(total / 2);
-		}
 		if (props.settings.boyOnly) {
 			total = props.settings.boyNumber;
 		} else if (props.settings.girlOnly) {
