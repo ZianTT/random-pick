@@ -21,7 +21,7 @@ const names = ref<string[]>(((): string[] => {
 const settings = ref<SettingsInfo>(((): SettingsInfo => {
 	const defaultValue = {
 		evenOnly: false,
-		maximum: "42",
+		maximum: "43",
 		minimum: "1",
 		oddOnly: false,
 		boyOnly: false,
@@ -31,7 +31,7 @@ const settings = ref<SettingsInfo>(((): SettingsInfo => {
 		quantity: "1",
 		repeat: true,
 		speed: "100",
-		special: false
+		special: false,
 	};
 	try {
 		const storedSettings = localStorage.getItem("settings");
