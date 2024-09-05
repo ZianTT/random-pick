@@ -18,7 +18,8 @@ const settingsItems: (keyof SettingsInfo)[] = [
 	"boyOnly",
 	"girlOnly",
 	"boyNumber",
-	"girlNumber"
+	"girlNumber",
+	"special"
 ];
 </script>
 
